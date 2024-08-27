@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+option go_package = "./hallpb";
+package hallpb;
+
+service Hall {
+    // client消息流
+    rpc ClientStream (stream ClientMessageRequest) returns (stream ClientMessageResponse){}
+    // 网关消息流
+    rpc GateStream (stream GateStreamRequest) returns (stream GateStreamResponse){}
+    // 状态
+    rpc Info (InfoRequest) returns (InfoResponse) {}
+    // 心跳
+    rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
+    // rpc PushStream (stream PushStreamNotify) returns (PushStreamPush) {}
+    rpc MustPush (MustPushRequest) returns (MustPushResponse) {}
+    // 发送消息
+    rpc SendMessage (SendMessageRequest) returns (SendMessageResponse) {}
+    // 发送消息
+    rpc CallMessage (CallMessageRequest) returns (CallMessageResponse) {}
+     // 顶号下线
+    rpc UserInstead (UserInsteadRequest) returns (UserInsteadResponse) {}
+    // 踢人下线
+    rpc Kick(KickRequest) returns (KickResponse) {}
+}
+
+message SendMessageRequest {
+    string UserId = 1;
+    string Method = 2;
+    bytes Data = 3;
+}
+
+message SendMessageResponse {
+}
+
+message CallMessageRequest {
+    string UserId = 1;
+    string Method = 2;
+    bytes Data = 3;
+}
+
+message CallMessageResponse {
+    string UserId = 1;
+    string Method = 2;
+    bytes Data = 3;
+}
+
+
+message GateStreamRequest {
+}
+
+message GateStreamResponse {
+}
+
+message HealthCheckRequest {
+}
+
+enum HallStatus {
+    OK = 0; // 可用
+    UnAvailable = 1; // 不可用
+}
+
+message HealthCheckResponse {
+    int64 PlayerCount = 1;
+    HallStatus Status = 2;
+}
+
+message InfoRequest {
+}
+
+message InfoResponse {
+    int64 BuildTime = 1;
+    string AppVersion = 2;
+    // 在线人数
+    int64 SessionCount = 3;
+}
+
+message ClientMessageRequest {
+    string MemberId = 1;
+    uint64 SessionId = 2;
+    uint64 ReqId = 3;
+    bytes Data = 4;
+}
+
+message ClientMessageResponse {
+    PacketType Type = 1;
+    uint64 SessionId = 2;
+    uint64 ReqId = 3;
+    bytes Data = 4;
+    string Route = 5;
+}
+
+// 顶号下线
+message UserInsteadRequest {
+    string UserId = 1;
+    string Address = 2;
+}
+
+// 顶号下线
+message UserInsteadResponse {
+    int32 ErrorCode = 1;
+    string ErrorMsg = 2;
+}
+
+// 推送消息
+message MustPushRequest {
+    string UserId = 1;
+    bytes Data = 4;
+}
+
+// 推送消息
+message MustPushResponse {
+    int32 ErrorCode = 1;
+    string ErrorMsg = 2;
+}
+
+enum PacketType {
+    NONE = 0;
+    DATA = 1;
+    KICK = 5;
+    USER_INSTEAD = 8;
+}
+
+message KickRequest {
+    string UserId = 1;
+    string Reason = 2;
+}
+
+message KickResponse {
+    int32 ErrorCode = 1;
+    string ErrorMsg = 2;
+}
