@@ -1,0 +1,1 @@
+https://github.com/grpc/grpc/blob/v1.56.x/src/proto/grpc/channelz/channelz.proto

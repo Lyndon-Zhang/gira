@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option go_package = "./peerpb";
+package peerpb;
+
+service Peer {
+    rpc HealthCheck(HealthCheckRequest) returns (HealthCheckResponse) {}
+    rpc MemStats(MemStatsRequest) returns (MemStatsResponse) {}
+}
+
+message HealthCheckRequest{
+}
+
+message HealthCheckResponse {
+    int64 BuildTime = 1;
+    string AppVersion = 2;
+    int64 UpTime = 3;
+    string ResVersion = 5;
+    string LoaderVersion = 4;
+}
+
+
+
+message MemStatsRequest{
+}
+
+message MemStatsResponse {
+    uint64 Alloc = 1;
+    uint64 TotalAlloc = 2;
+    uint64 Sys = 3;
+    uint64 Mallocs = 4;
+    uint64 Frees = 5;
+    uint64 HeapAlloc = 6;
+    uint64 HeapSys = 7;
+    uint64 HeapIdle = 8;
+    uint64 HeapInuse = 9;
+    uint64 HeapReleased = 10;
+    uint64 HeapObjects = 11;
+}
+
