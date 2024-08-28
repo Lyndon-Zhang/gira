@@ -3,6 +3,7 @@ package platform
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"github.com/Lyndon-Zhang/gira/platform/kuaishou"
     "github.com/Lyndon-Zhang/gira/platform/a4399"
 	"github.com/Lyndon-Zhang/gira/platform/weixin"
@@ -44,7 +45,7 @@ func NewConfigSdk(config gira.PlatformConfig) *PlatformSdk {
 		self.sdkDict["kuaishou"] = NewConfigKuaishouSdk(*config.Kuaishou)
 	}
     if config.A4399 != nil {
-		self.A4399Sdk = NewConfigA4399Sdk(*config.A4399)
+		self.a4399Sdk = NewConfigA4399Sdk(*config.A4399)
 		self.sdkDict["a4399"] = NewConfigA4399Sdk(*config.A4399)
 	}
 	return self
@@ -325,7 +326,7 @@ func (self *A4399Sdk) Login(accountPlat string, openId string, token string, aut
 		return nil, errors.New(fmt.Sprintf("%d %s", resp.Code, resp.Message))
 	} else {
 		result := &gira.SdkAccount{
-			OpenId:   	  resp.Result.UID,
+			OpenId:strconv.FormatInt(resp.Result.UID, 10),
 			// Username: resp.Result.Username,
 			NickName: resp.Result.NickName,
 			// AvatarUrl:resp.Result.AvatarUrl,

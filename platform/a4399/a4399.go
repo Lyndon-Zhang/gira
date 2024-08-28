@@ -7,13 +7,13 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"net/url"
+	//"net/url"
 )
 
 type JsCode2SessionRequest struct {
 	AppId         string `json:"appid"`
 	Secret        string `json:"secret"`
-	P-Token       string `json:"code"`
+	Code          string `json:"code"`
 	AnonymousCode string `json:"anonymous_code"`
 }
 
@@ -37,7 +37,7 @@ func JsCode2Session(appId string, secret string, code string, anonymousCode stri
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
 	host := "https://mgc-api.5054399.net"
-	params := url.Values{}
+	//params := url.Values{}
 
 	url := fmt.Sprintf("%s/service/api/v1/check/1025/user", host)
 	log.Println(url)
